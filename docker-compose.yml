@@ -30,7 +30,7 @@ services:
         max-file: "3"
 
   backend:
-    image: ghcr.io/${GITHUB_REPOSITORY_OWNER}/adyalam-backend:latest
+    image:  ghcr.io/${GITHUB_REPOSITORY_OWNER}/${GITHUB_REPOSITORY_NAME}/adyalam-backend:latest
 
     container_name: adyalam-backend
 
@@ -62,7 +62,7 @@ services:
         max-file: "3"
 
   frontend:
-    image: ghcr.io/${GITHUB_REPOSITORY_OWNER}/adyalam-frontend:latest
+    image: ghcr.io/${GITHUB_REPOSITORY_OWNER}/${GITHUB_REPOSITORY_NAME}/adyalam-frontend:latest
 
     container_name: adyalam-frontend
 

@@ -131,6 +131,7 @@ jobs:
             cat > .env <<EOF
             DB_PASSWORD=${{ secrets.DB_PASSWORD }}
             GITHUB_REPOSITORY_OWNER=${{ github.repository_owner }}
+            GITHUB_REPOSITORY_NAME=${{ github.event.repository.name }}
             EOF
 
             docker compose pull
