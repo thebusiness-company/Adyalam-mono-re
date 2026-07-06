@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState } from "react";
-import "./WebsitePricingBreakDown.css";
+import "./WebsitePricingBreakdown.css";
 import { useNavigate } from 'react-router-dom';
 
 const WebsitePricingBreakdown = ({ service, plans }) => {
