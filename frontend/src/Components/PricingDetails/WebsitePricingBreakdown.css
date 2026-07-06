@@ -1,0 +1,370 @@
+.website-pricing-breakdown-bg{
+    padding: 70px 30px;
+    background:#f8f8f8;
+    border-radius:20px;
+
+    animation: fadeInUp 0.5s ease;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.website-selected-plan {
+    animation: planFade 0.3s ease;
+}
+
+@keyframes planFade {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0px);
+    }
+}
+
+
+.website-plan-tabs{
+    display:grid;
+    grid-template-columns:repeat(3, auto);
+    justify-content:center;
+    gap:15px;
+    margin-bottom:30px;
+}
+
+.website-plan-tab-btn{
+    padding:8px 35px;
+    border-radius:50px;
+    background:white;
+    border:1px solid #e5e7eb;
+    cursor:pointer;
+    font-weight:700;
+    color:#374151;
+    white-space: nowrap;
+    transition:0.3s
+}
+
+/* gradient text */
+
+.website-plan-tab-btn.active.portfolio{
+    background:linear-gradient(135deg,#2563eb,#60a5fa);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+}
+
+.website-plan-tab-btn.active.business{
+    background:linear-gradient(135deg,#059669,#34d399);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+}
+
+
+.website-plan-tab-btn.active.professional{
+    background:linear-gradient(135deg,#7c3aed,#a78bfa);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+}
+
+
+.website-plan-tab-btn.active.growth{
+    background:linear-gradient(135deg,#ea580c,#fb923c);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+}
+
+
+.website-plan-tab-btn.active.ecommerceStarter{
+    background:linear-gradient(135deg,#0891b2,#67e8f9); 
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+}
+
+
+.website-plan-tab-btn.active.premium{
+    background:linear-gradient(135deg,#B8860B,#E5C158);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+}
+
+.website-plan-tab-btn.active.portfolio{
+    border:1px solid #2563eb;
+}
+
+.website-plan-tab-btn.active.business{
+    border:1px solid #059669;
+}
+
+.website-plan-tab-btn.active.professional{
+    border:1px solid #7c3aed;
+}
+
+.website-plan-tab-btn.active.growth{
+    border:1px solid #ea580c;
+}
+
+.website-plan-tab-btn.active.ecommerceStarter{
+    border:1px solid #0891b2;
+}
+
+.website-plan-tab-btn.active.premium{
+    border:1px solid #B8860B;
+}
+
+.website-plan-tab-btn.active{
+    transform:translateY(-3px);
+    /* background: white !important; */
+}
+
+
+.website-package-title{
+    background-clip:text;
+    -webkit-background-clip:text;
+    color:transparent;
+    font-weight:800;
+}
+
+.website-package-grid{
+    display:grid;
+    grid-template-columns: 0.8fr 1.4fr 1fr;
+    gap:20px;
+    margin-top: 20px;
+}
+
+.website-package-item{
+ background: white;
+ padding: 20px;
+ border-radius: 12px;
+}
+
+.website-feature-icon {
+    display:flex;
+    gap:10px;
+}
+
+@media(max-width:1023px){
+.website-package-grid{
+display: flex;
+flex-direction: column;
+gap: 20px;
+
+}
+
+.website-plan-tabs{
+    display:grid;
+    grid-template-columns:repeat(2, auto);
+    justify-content:center;
+    gap:15px;
+    margin-bottom:30px;
+}
+}
+
+@media(max-width:767px){
+
+.website-package-grid{
+
+grid-template-columns:1fr;
+
+}
+
+.website-plan-tabs{
+    display:grid;
+    grid-template-columns:1fr;
+    justify-content:center;
+    gap:15px;
+    margin-bottom:30px;
+}
+
+}
+
+.website-feature-icon-box {
+  width: 34px;
+  height: 34px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgb(155, 23, 126);
+  flex-shrink: 0;
+}
+
+.website-feature-icon-box i {
+  font-size: 18px;
+  color: white;
+}
+
+.website-suitablefor-icon-box {
+  width: 34px;
+  height: 34px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background:white;
+  border:1px solid #d1d5db;
+  flex-shrink: 0;
+}
+
+.website-suitablefor-icon-box i {
+  font-size:17px;
+  color:#6b7280;
+}
+
+.website-suitablefor-titlelist {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.website-suitablefor-title {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+}
+
+.website-include-itemlist {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.website-include-item {
+    display: flex;
+    flex-direction: row;
+    /* align-items: center; */
+    gap: 6px;
+}
+
+.website-notinclude-itemlist {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.website-notinclude-item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 6px;
+}
+
+.include-icon{
+    width:22px;
+    height:22px;
+    border-radius:50%;
+    background:#dcfce7;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    flex-shrink: 0;
+}
+
+.include-icon i{
+    color:#16a34a;
+    font-size:14px;
+}
+
+.notinclude-icon{
+    width:22px;
+    height:22px;
+    border-radius:50%;
+    background:#fee2e2;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    flex-shrink: 0;
+}
+
+.notinclude-icon i{
+    color:#dc2626;
+}
+
+.website-package-heading{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:20px;
+}
+
+
+@media(min-width:768px){
+
+        .website-include-itemlist{
+        display:grid;
+        grid-template-columns:repeat(2,1fr);
+        column-gap:30px;
+        row-gap:12px;
+    }
+
+    .website-suitablefor-titlelist{
+        display:grid;
+        grid-template-columns:repeat(2,1fr);
+        column-gap:30px;
+        row-gap:12px;
+    }
+
+}
+
+@media(max-width:768px){
+    .website-package-heading{
+    display:flex;
+    flex-direction: column;
+    justify-content:space-between;
+    align-items:center;
+    gap:20px;
+}
+
+.website-pricing-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.website-plan-tab-btn{
+    padding:8px 21px;
+}
+
+}
+
+@media(min-width:1024px){
+
+        .website-suitablefor-titlelist{
+        display:grid;
+        grid-template-columns:repeat(1,1fr);
+        column-gap:30px;
+        row-gap:12px;
+    }
+}
+
+
+.website-package-cta{
+    padding:8px 28px;
+    border-radius:30px;
+    border:none;
+    background:#17012C;
+    color:white;
+    font-weight:600;
+    cursor:pointer;
+    transition:.3s;
+    white-space: nowrap;
+}
+
+
+.website-package-cta:hover{
+    transform:translateY(-3px);
+}
