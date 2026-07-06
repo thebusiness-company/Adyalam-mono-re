@@ -24,15 +24,19 @@ const BlogsDisplay = () => {
       const loadBlogs = async () => {
           try {
             const data = await fetchBlogs();
-            setBlogs(data);
-
-            if (data.length > 0) {
-              setActiveBlog(data[data.length -1].id);
+            if (Array.isArray(data)) {
+              setBlogs(data);
+              if (data.length > 0) {
+                setActiveBlog(data[data.length - 1].id);
+              }
+            } else {
+              setBlogs([]);
+              console.error("Invalid blogs data format:", data);
             }
           } catch (error) {
-            console.error("Failed to load blogs: ",)
+            console.error("Failed to load blogs:", error);
           } finally {
-            setLoading(false)
+            setLoading(false);
           }
       };
 
@@ -42,7 +46,7 @@ const BlogsDisplay = () => {
     console.log("blogs: ", blogs);
 
       if (loading) return <div>Loading...</div>;
-      if (!blogs.length) return <div>No blogs found</div>;
+      if (!Array.isArray(blogs) || !blogs.length) return <div>No blogs found</div>;
 
       const defaultBlog = blogs[0];
 

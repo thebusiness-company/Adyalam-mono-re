@@ -12,7 +12,12 @@ const Blog = () => {
     const loadBlogs = async () => {
       try {
         const data = await fetchBlogs();
-        setBlogs(data);
+        if (Array.isArray(data)) {
+          setBlogs(data);
+        } else {
+          setBlogs([]);
+          setError("Failed to load blogs: Invalid response format");
+        }
       } catch (err) {
         setError("Failed to load blogs");
       } finally {
@@ -24,7 +29,7 @@ const Blog = () => {
   }, []);
 
   if (loading) return <p className="text-center mt-5">Loading blogs...</p>;
-  if (error) return <p className="text-danger text-center mt-5">{error}</p>;
+  if (error || !Array.isArray(blogs)) return <p className="text-danger text-center mt-5">{error || "Failed to load blogs"}</p>;
 
   return (
     <section className="news-section section-padding fix">
