@@ -128,10 +128,12 @@ jobs:
               -u "${{ github.repository_owner }}" \
               --password-stdin
 
+            REPO_NAME=$(echo "${{ github.event.repository.name }}" | tr '[:upper:]' '[:lower:]')
+
             cat > .env <<EOF
             DB_PASSWORD=${{ secrets.DB_PASSWORD }}
             GITHUB_REPOSITORY_OWNER=${{ github.repository_owner }}
-            GITHUB_REPOSITORY_NAME=${{ github.event.repository.name }}
+            GITHUB_REPOSITORY_NAME=${REPO_NAME}
             EOF
 
             docker compose pull
