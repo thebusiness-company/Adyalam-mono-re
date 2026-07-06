@@ -1,30 +1,37 @@
-# Use an official Python runtime as a parent image
 FROM python:3.11-slim
 
-# Set environment variables
-ENV PYTHONDONTWRITEBYTECODE=1
-ENV PYTHONUNBUFFERED=1
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PIP_NO_CACHE_DIR=1
 
 WORKDIR /app
 
-# Install system dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
+    gcc \
     libpq-dev \
+    curl \
     && rm -rf /var/lib/apt/lists/*
 
-# Install python dependencies
 COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy backend code
+RUN pip install --upgrade pip
+
+RUN pip install -r requirements.txt
+
 COPY . .
 
-# Create uploads directory (handled in python, but good practice to ensure it exists)
-RUN mkdir -p static/uploads
+RUN mkdir -p /app/static/uploads
 
-# Expose the API port
+RUN useradd -m appuser
+
+RUN chown -R appuser:appuser /app
+
+USER appuser
+
 EXPOSE 8000
 
-# Start FastAPI application
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+HEALTHCHECK --interval=30s --timeout=10s --retries=3 \
+CMD curl -f http://localhost:8000/health || exit 1
+
+CMD ["uvicorn","app.main:app","--host","0.0.0.0","--port","8000","--proxy-headers"]

@@ -1,6 +1,6 @@
 import os
 import logging
-from fastapi import FastAPI, Depends, HTTPException, UploadFile, File, Form
+from fastapi import FastAPI, Depends, HTTPException, UploadFile, File, Form, APIRouter
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from sqlalchemy.orm import Session
@@ -11,6 +11,7 @@ from .database import SessionLocal, engine, Base
 logger = logging.getLogger("uvicorn.error")
 
 app = FastAPI(title="Adyalam Contact API")
+api_router = APIRouter(prefix="/api")
 
 # Allow requests from the frontend during development
 app.add_middleware(
@@ -25,6 +26,9 @@ app.add_middleware(
 UPLOAD_DIR = os.path.join(os.path.dirname(__file__), "..", "static", "uploads")
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 app.mount("/uploads", StaticFiles(directory=os.path.abspath(UPLOAD_DIR)), name="uploads")
+app.mount("/api/uploads", StaticFiles(directory=os.path.abspath(UPLOAD_DIR)), name="uploads-api")
+
+
 
 
 def get_db():
@@ -34,6 +38,9 @@ def get_db():
     finally:
         db.close()
 
+@app.get("/health", tags=["Health"])
+def health():
+    return {"status": "ok"}
 
 @app.on_event("startup")
 def on_startup():
@@ -60,13 +67,13 @@ def on_startup():
             pass
 
 
-@app.post("/contact", response_model=schemas.ContactOut, status_code=201)
+@api_router.post("/contact", response_model=schemas.ContactOut, status_code=201)
 def create_contact(contact: schemas.ContactCreate, db: Session = Depends(get_db)):
     created = crud.create_contact(db, contact)
     return created
 
 
-@app.post("/blogs", response_model=schemas.BlogOut, status_code=201)
+@api_router.post("/blogs", response_model=schemas.BlogOut, status_code=201)
 def create_blog(
     title: str = Form(...),
     content: str = Form(...),
@@ -94,12 +101,12 @@ def create_blog(
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@app.get("/blogs", response_model=list[schemas.BlogOut])
+@api_router.get("/blogs", response_model=list[schemas.BlogOut])
 def list_blogs(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     return crud.get_blogs(db, skip=skip, limit=limit)
 
 
-@app.get("/blogs/{blog_id}", response_model=schemas.BlogOut)
+@api_router.get("/blogs/{blog_id}", response_model=schemas.BlogOut)
 def get_blog(blog_id: int, db: Session = Depends(get_db)):
     b = crud.get_blog(db, blog_id)
     if not b:
@@ -107,7 +114,7 @@ def get_blog(blog_id: int, db: Session = Depends(get_db)):
     return b
 
 
-@app.put("/blogs/{blog_id}", response_model=schemas.BlogOut)
+@api_router.put("/blogs/{blog_id}", response_model=schemas.BlogOut)
 def update_blog_endpoint(
     blog_id: int,
     title: str | None = Form(None),
@@ -136,9 +143,12 @@ def update_blog_endpoint(
     return updated
 
 
-@app.delete("/blogs/{blog_id}")
+@api_router.delete("/blogs/{blog_id}")
 def delete_blog_endpoint(blog_id: int, db: Session = Depends(get_db)):
     ok = crud.delete_blog(db, blog_id)
     if not ok:
         raise HTTPException(status_code=404, detail="Blog not found")
     return {"success": True}
+
+app.include_router(api_router)
+

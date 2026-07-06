@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { fetchBlogs } from "../../api/blogApi";
 import { useNavigate } from "react-router-dom";
+import { API_BASE_URL } from "../../config";
+
 
 const BlogsDisplay = () => {
   const [blogs, setBlogs] = useState([]);
@@ -96,7 +98,7 @@ const BlogsDisplay = () => {
                     onClick={() => navigate(`/blog/${defaultBlog.id}`)}
                   >
                     <img
-                      src={`${import.meta.env.VITE_API_BASE_URL}${encodeURI(defaultBlog.image_url)}`}
+                      src={`${API_BASE_URL}${encodeURI(defaultBlog.image_url)}`}
                       alt="blog image"
                     />
                     {/* <h3 className="project-title p-8 text-white">
@@ -119,7 +121,7 @@ const BlogsDisplay = () => {
                       data-wow-delay={`.${index * 2}s`}
                       onMouseEnter={() => setActiveBlog(blog.id)}
                       style={{
-                        backgroundImage: `url(${import.meta.env.VITE_API_BASE_URL}${encodeURI(blog.image_url)})`,
+                        backgroundImage: `url(${API_BASE_URL}${encodeURI(blog.image_url)})`,
                         backgroundSize: "cover",
                         backgroundPosition: "center",
                         cursor: "pointer",
