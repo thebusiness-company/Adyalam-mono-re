@@ -12,6 +12,9 @@ import ServicesPage from "../Pages/ServicesPage";
 import BlogPage from "../Pages/BlogPage";
 import BlogDetailsPage from "../Pages/BlogDetailsPage";
 import AdminBlog from "../Pages/AdminBlog";
+import AdminContacts from "../Pages/AdminContacts";
+import Login from "../Pages/Login";
+import ProtectedRoute from "../Components/ProtectedRoute";
 import TermsandConditions from "../Pages/TermsandConditions";
 import PrivacyPolicy from "../Pages/PrivacyPolicy";
 
@@ -46,7 +49,15 @@ export const router = createBrowserRouter([
       },
       {
         path: "/admin/blogs",
-        element: <AdminBlog></AdminBlog>,
+        element: <ProtectedRoute><AdminBlog></AdminBlog></ProtectedRoute>,
+      },
+      {
+        path: "/admin/contacts",
+        element: <ProtectedRoute><AdminContacts></AdminContacts></ProtectedRoute>,
+      },
+      {
+        path: "/admin/login",
+        element: <Login></Login>,
       },
       {
         path: "/terms",

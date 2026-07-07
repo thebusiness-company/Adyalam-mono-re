@@ -7,6 +7,7 @@ from sqlalchemy.orm import Session
 from sqlalchemy.sql import text
 from . import models, schemas, crud
 from .database import SessionLocal, engine, Base
+from .auth import get_current_admin, verify_credentials, create_access_token
 
 logger = logging.getLogger("uvicorn.error")
 
@@ -80,6 +81,7 @@ def create_blog(
     image: UploadFile | None = File(None),
     image_url_form: str | None = Form(None),
     db: Session = Depends(get_db),
+    admin: dict = Depends(get_current_admin),
 ):
     try:
         image_url = None
@@ -122,6 +124,7 @@ def update_blog_endpoint(
     image: UploadFile | None = File(None),
     image_url_form: str | None = Form(None),
     db: Session = Depends(get_db),
+    admin: dict = Depends(get_current_admin),
 ):
     image_url = None
     if image:
@@ -144,11 +147,47 @@ def update_blog_endpoint(
 
 
 @api_router.delete("/blogs/{blog_id}")
-def delete_blog_endpoint(blog_id: int, db: Session = Depends(get_db)):
+def delete_blog_endpoint(
+    blog_id: int,
+    db: Session = Depends(get_db),
+    admin: dict = Depends(get_current_admin),
+):
     ok = crud.delete_blog(db, blog_id)
     if not ok:
         raise HTTPException(status_code=404, detail="Blog not found")
     return {"success": True}
 
+
+@api_router.get("/contacts", response_model=list[schemas.ContactOut])
+def list_contacts(
+    skip: int = 0,
+    limit: int = 100,
+    db: Session = Depends(get_db),
+    admin: dict = Depends(get_current_admin),
+):
+    return crud.get_contacts(db, skip=skip, limit=limit)
+
+
+@api_router.delete("/contacts/{contact_id}")
+def delete_contact_endpoint(
+    contact_id: int,
+    db: Session = Depends(get_db),
+    admin: dict = Depends(get_current_admin),
+):
+    ok = crud.delete_contact(db, contact_id)
+    if not ok:
+        raise HTTPException(status_code=404, detail="Contact not found")
+    return {"success": True}
+
+
+@api_router.post("/login")
+def login(login_req: schemas.LoginRequest):
+    if not verify_credentials(login_req.username, login_req.password):
+        raise HTTPException(status_code=401, detail="Invalid username or password")
+    access_token = create_access_token(data={"sub": login_req.username})
+    return {"access_token": access_token, "token_type": "bearer"}
+
+
 app.include_router(api_router)
+
 

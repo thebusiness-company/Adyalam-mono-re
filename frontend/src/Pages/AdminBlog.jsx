@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { API_BASE_URL } from "../config";
 
 const AdminBlog = () => {
@@ -62,17 +63,24 @@ const AdminBlog = () => {
       if (imageUrl) form.append("image_url_form", imageUrl);
 
       let res;
+      const token = localStorage.getItem("token");
 
       if (editingId) {
         // UPDATE
         res = await fetch(`${API_BASE_URL}/blogs/${editingId}`, {
           method: "PUT",
+          headers: {
+            "Authorization": `Bearer ${token}`,
+          },
           body: form,
         });
       } else {
         // CREATE
         res = await fetch(`${API_BASE_URL}/blogs`, {
           method: "POST",
+          headers: {
+            "Authorization": `Bearer ${token}`,
+          },
           body: form,
         });
       }
@@ -109,8 +117,12 @@ const AdminBlog = () => {
     if (!window.confirm("Delete this blog?")) return;
 
     try {
+      const token = localStorage.getItem("token");
       const res = await fetch(`${API_BASE_URL}/blogs/${id}`, {
         method: "DELETE",
+        headers: {
+          "Authorization": `Bearer ${token}`,
+        },
       });
 
       if (!res.ok) throw new Error("Delete failed");
@@ -123,6 +135,26 @@ const AdminBlog = () => {
 
   return (
     <div className="container py-5">
+      {/* Admin Navigation */}
+      <div className="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4 pb-3 border-bottom gap-3">
+        <h2 className="m-0 fw-bold text-primary">Adyalam Control Panel</h2>
+        <div className="d-flex align-items-center gap-3">
+          <div className="nav nav-pills">
+            <Link to="/admin/blogs" className="nav-link active">Manage Blogs</Link>
+            <Link to="/admin/contacts" className="nav-link">Contact Submissions</Link>
+          </div>
+          <button
+            onClick={() => {
+              localStorage.removeItem("token");
+              window.location.href = "/admin/login";
+            }}
+            className="btn btn-outline-danger"
+          >
+            Logout
+          </button>
+        </div>
+      </div>
+
       <h2>{editingId ? "Update Blog" : "Create Blog Post"}</h2>
 
       {/* ================= FORM ================= */}

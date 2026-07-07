@@ -59,3 +59,17 @@ def delete_blog(db: Session, blog_id: int):
     db.delete(db_blog)
     db.commit()
     return True
+
+
+def get_contacts(db: Session, skip: int = 0, limit: int = 100):
+    return db.query(models.Contact).order_by(models.Contact.created_at.desc()).offset(skip).limit(limit).all()
+
+
+def delete_contact(db: Session, contact_id: int):
+    db_contact = db.query(models.Contact).filter(models.Contact.id == contact_id).first()
+    if not db_contact:
+        return False
+    db.delete(db_contact)
+    db.commit()
+    return True
+

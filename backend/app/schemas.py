@@ -59,3 +59,9 @@ class BlogUpdate(BaseModel):
     image_url: Optional[str] = None
 
     model_config = {"from_attributes": True}
+
+
+class LoginRequest(BaseModel):
+    username: str
+    password: str
+
